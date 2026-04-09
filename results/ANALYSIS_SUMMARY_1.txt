@@ -1,0 +1,33 @@
+PANCREATIC CANCER GENE EXPRESSION ANALYSIS - SUMMARY REPORT
+==================================================
+
+DATASET INFORMATION:
+- Dataset: GSE71989 (Pancreatic Cancer Patient Samples)
+- Number of samples: [to be filled]
+- Technology: Gene expression microarray
+
+DIFFERENTIAL EXPRESSION ANALYSIS:
+- Total genes analyzed: 2
+- Upregulated in Cancer: 0
+- Downregulated in Cancer: 2
+- Statistical threshold: padj < 0.05, |log2FC| > 1
+
+TOP 10 UPREGULATED GENES IN PANCREATIC CANCER:
+
+
+
+TOP 10 DOWNREGULATED GENES IN PANCREATIC CANCER:
+
+1.
+2.
+
+BIOLOGICAL INTERPRETATION:
+- This analysis identified genes significantly dysregulated in pancreatic cancer
+- Results span critical pathways including growth signaling, apoptosis, and metabolism
+- Findings have implications for understanding cancer progression and potential therapy targets
+
+CLINICAL RELEVANCE:
+- Pancreatic cancer is among the most aggressive malignancies
+- Early detection is crucial, as most cases present at advanced stages
+- Gene expression signatures may inform prognosis and treatment selection
+
