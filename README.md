@@ -18,50 +18,89 @@ Pancreatic cancer is one of the most aggressive human malignancies, often presen
 - **Technology:** Gene expression microarray
 - **Analysis:** Comparative transcriptomics (Cancer vs Normal)
 
-##Project Structure##
+# Project Structure
 
 pancreatic-cancer-analysis/
 │
 ├── README.md                              # This file
+
 ├── LICENSE                                # MIT License
+
 │
 ├── data/
+
 │   ├── raw/                               # Original data from GEO
+
 │   │   ├── pancreatic_expression_matrix.rds
+
 │   │   ├── pancreatic_expression_matrix.csv
+
 │   │   ├── pancreatic_sample_info.rds
+
 │   │   └── pancreatic_sample_info.csv
+
 │   │
+
 │   └── processed/                         # Cleaned & processed data
+
 │       ├── expression_filtered.rds
+
 │       ├── sample_info_processed.rds
+
 │       ├── deseq2_object.rds
+
 │       ├── de_genes_significant.rds
+
 │       └── deseq2_results.rds
+
 │
+
 ├── scripts/                               # R analysis scripts
+
 │   ├── 01_quality_control.R
+
 │   ├── 02_differential_expression.R
+
 │   ├── 03_differential_expression.R
+
 │   ├── 04_check_pancreatic_genes.R
+
 │   ├── 05_pathway_analysis.R
+
 │   ├── 06_visualisation.R
+
 │   └── 07_summary_report.R
+
 │
+
 └── results/
+
     ├── plots/                             # Generated visualizations
+    
     │   ├── 01_library_size.png
+    
     │   ├── 01_expression_distribution.png
+    
     │   ├── 03_volcano_plot.png
+    
     │   ├── 06_pca_plot.png
+    
     │   ├── 06_ma_plot.png
+    
     │   └── 06_volcano_plot.png
+    
     │
+    
     ├── tables/                            # Data tables & statistics
+    
     │   ├── 03_all_genes_results.csv
+    
     │   ├── 03_significant_de_genes.csv
-    │  
+    
     │
+    
+    │
+    
     └── ANALYSIS_SUMMARY_1.txt               # Final summary report
 
 ## Analysis Pipeline
@@ -219,8 +258,9 @@ source("scripts/03_differential_expression.R")
 source("scripts/06_visualisation.R")
 ```
 
-Data Access
+### Data Access
 Raw data is downloaded directly from GEO within the scripts:
+
 ```r
 # Automatic download (in script 02):
 library(GEOquery)
@@ -232,174 +272,228 @@ rdds <- readRDS("data/processed/deseq2_object.rds")
 de_genes <- readRDS("data/processed/de_genes_significant.rds")
 ```
 
-###Key Findings
+### Key Findings
 Differential Expression Summary
 
-Total genes analyzed: ~54,000 (after filtering)
-Significantly dysregulated genes: [2]
 
-Upregulated in cancer: [0]
-Downregulated in cancer: [2]
+**Total genes analyzed:** ~54,000 (after filtering)
+**Significantly dysregulated genes:** [2]
+
+
+*Upregulated in cancer:* [0]
+*Downregulated in cancer:* [2]
 
 
 Statistical threshold: FDR-adjusted p-value < 0.05, |log2 fold change| > 1
 
 
 
-Known Pancreatic Cancer Genes
+### Known Pancreatic Cancer Genes
 The following well-characterized pancreatic cancer genes showed changes consistent with literature:
 
-KRAS: Not significant
-TP53: Not significant
-CDKN2A: not significant
-SMAD4: Not significant
+*KRAS:* Not significant
 
-###Methods
-Data Source
-Expression data obtained from Gene Expression Omnibus (GEO) accession GSE71989, containing microarray data from pancreatic cancer and normal tissue samples.
+*TP53:* Not significant
 
-###Quality Control
+*CDKN2A:* not significant
+
+*SMAD4:* Not significant
+
+### Methods
+
+**Data Source**
+
+*Expression data obtained from:* 
+
+Gene Expression Omnibus (GEO) accession GSE71989,
+
+containing microarray data from pancreatic cancer and normal tissue samples.
+
+### Quality Control
 
 Removed genes with mean expression < 5
 Assessed library size distribution
 Checked for missing values and outliers
 
-##Statistical Analysis
+
+## Statistical Analysis
+
 **Software**: DESeq2 (Bioconductor)
+
 Normalization: Median of ratios normalization
-**Test:** Wald test with Benjamini-Hochberg FDR correction
-Significance Criteria:
+
+**Test:** 
+
+Wald test with Benjamini-Hochberg FDR correction
+
+*Significance Criteria:*
+
 
 Adjusted p-value (padj) < 0.05
 Absolute log2 fold change > 1.0
 
 
-Annotation: Human genome (Homo sapiens) databases
 
-Results Summary
-Visualizations Created
-PlotDescriptionFileLibrary SizeDistribution across samples01_library_size.pngExpression DistributionBox plots of expression levels01_expression_distribution.pngVolcano Plotlog2FC vs. -log10(padj)03_volcano_plot.pngPCA PlotSample clustering by condition06_pca_plot.pngMA PlotEffect size vs. mean expression06_ma_plot.png
-Output Files
-FileDescription03_all_genes_results.csvComplete results for all genes03_significant_de_genes.csvSignificant genes onlyANALYSIS_SUMMARY_1.txtText summary of findings
+## Clinical Implications
 
-Clinical Implications
-Therapeutic Targets
-Upregulated genes identified in this analysis represent potential therapeutic targets for pancreatic cancer intervention.
-Biomarker Discovery
-Dysregulated genes could serve as:
+~Therapeutic Targets
 
-Diagnostic biomarkers for early detection
-Prognostic biomarkers for patient stratification
-Predictive biomarkers for treatment response
+~Upregulated genes identified in this analysis represent potential therapeutic targets for pancreatic cancer intervention.
 
-Precision Medicine
-Molecular profiling enables:
-
-Patient stratification based on expression profiles
-Selection of targeted therapies
-Monitoring of treatment response
-
-Surgical Considerations
-Understanding molecular landscape informs:
-
-Surgical strategy selection
-Timing of intervention
-Potential for neoadjuvant therapy optimization
+~Biomarker Discovery
 
 
-Limitations
+~Dysregulated genes could serve as:
 
-Single dataset analysis: Results should be validated in independent cohorts
-Technology platform: Microarray vs. RNA-seq differences
-Sample size: Limited number of samples may restrict statistical power
-Cross-validation: Results need functional validation
-Temporal factors: Snapshot of gene expression, not dynamic changes
+>Diagnostic biomarkers for early detection
+
+>Prognostic biomarkers for patient stratification
+
+>Predictive biomarkers for treatment response
+
+~Precision Medicine
+
+~Molecular profiling enables:
+
+>Patient stratification based on expression profiles
+
+>Selection of targeted therapies
+
+>Monitoring of treatment response
+
+~Surgical Considerations
+
+~Understanding molecular landscape informs:
+
+>Surgical strategy selection
+
+>Timing of intervention
+
+>Potential for neoadjuvant therapy optimization
 
 
-Future Directions
+## Limitations
+
+Single dataset analysis:
+
+Results should be validated in independent cohorts
+
+Technology platform:
+
+Microarray vs. RNA-seq differences
+
+Sample size:
+
+Limited number of samples may restrict statistical power
+
+Cross-validation: 
+
+Results need functional validation
+
+Temporal factors:
+
+Snapshot of gene expression, not dynamic changes
+
+
+## Future Directions
 
 Validation Studies
 
 RNA-seq confirmation of top genes
+
 Protein-level validation (Western blot, immunohistochemistry)
+
 Functional studies in cancer cell lines
 
-
 Expanded Analysis
+: Multi-cohort meta-analysis,
 
-Multi-cohort meta-analysis
-Subtype-specific analysis
+Subtype-specific analysis,
+
 Time-series analysis if available
 
 
 Clinical Translation
 
-Development of diagnostic tests
-Prospective validation studies
+Development of diagnostic tests,
+
+Prospective validation studies,
+
 Translation to clinical practice
 
 
-Mechanistic Studies
-
-Functional annotation of dysregulated genes
-Pathway network analysis
-Investigation of gene-gene interactions
 
 
+### References
 
 
-References
-Key Papers
+## Key Papers
 
-Love, M.I., Huber, W., & Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15(12), 550.
-He Y, Liu Y, Gong J, Liu C, Zhang H and Wu H: Identification of key pathways and candidate genes in pancreatic ductal adenocarcinoma using bioinformatics analysis. Oncol Lett 17: 3751-3764, 2019.
-Ma Y, Pu Y, Peng L, Luo X, Xu J, Peng Y and Tang X: Identification of potential hub genes associated with the pathogenesis and prognosis of pancreatic duct adenocarcinoma using bioinformatics meta‑analysis of multi‑platform datasets. Oncol Lett 18: 6741-6751, 2019.
+1. Love, M.I., Huber, W., & Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15(12), 550.
 
-Databases & Tools
+
+2. He Y, Liu Y, Gong J, Liu C, Zhang H and Wu H: Identification of key pathways and candidate genes in pancreatic ductal adenocarcinoma using bioinformatics analysis. Oncol Lett 17: 3751-3764, 2019.
+
+
+3. Ma Y, Pu Y, Peng L, Luo X, Xu J, Peng Y and Tang X: Identification of potential hub genes associated with the pathogenesis and prognosis of pancreatic duct adenocarcinoma using bioinformatics meta‑analysis of multi‑platform datasets. Oncol Lett 18: 6741-6751, 2019.
+
+
+## Databases & Tools
 
 Gene Expression Omnibus: https://www.ncbi.nlm.nih.gov/geo/
+
 DESeq2: https://bioconductor.org/packages/DESeq2/
+
 KEGG: https://www.genome.jp/kegg/
+
 Reactome: https://reactome.org/
 
-Pancreatic Cancer Resources
+
+## Pancreatic Cancer Resources
 
 National Cancer Institute: https://www.cancer.gov/types/pancreatic
+
 Pancreatic Cancer Action: https://pancreaticcanceraction.org/
 
 
-Author & Contact
+### Author & Contact
+
 Author: Dheemahi Sai Sri Lakshmi Bugga
+
 Affiliation: Malla Reddy Medical College For Women, Fourth year MBBS Student
+
+
+
+
 Research Interests:
 
 Surgical oncology and precision medicine
+
 Trauma surgery
+
 Computational biology in medicine
+
 Cancer genomics
+
+
+
 
 Email: [dheemahibugga27@gmail.com]
 
 
 
-License
+### License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
+
 MIT License Summary
-You are free to:
-
-Use this code for any purpose
-Modify and distribute the code
-Include the code in proprietary projects
-
-You must:
-
-Include a copy of the license
-Include copyright notice
 
 
 
-Acknowledgments
+### Acknowledgments
 
 GEO (Gene Expression Omnibus) for public access to data
+
 Bioconductor team for DESeq2 and related packages
+
 R community for excellent statistical packages
