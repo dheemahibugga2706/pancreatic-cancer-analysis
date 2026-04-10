@@ -18,91 +18,6 @@ Pancreatic cancer is one of the most aggressive human malignancies, often presen
 - **Technology:** Gene expression microarray
 - **Analysis:** Comparative transcriptomics (Cancer vs Normal)
 
-# Project Structure
-
-pancreatic-cancer-analysis/
-│
-├── README.md                              # This file
-
-├── LICENSE                                # MIT License
-
-│
-├── data/
-
-│   ├── raw/                               # Original data from GEO
-
-│   │   ├── pancreatic_expression_matrix.rds
-
-│   │   ├── pancreatic_expression_matrix.csv
-
-│   │   ├── pancreatic_sample_info.rds
-
-│   │   └── pancreatic_sample_info.csv
-
-│   │
-
-│   └── processed/                         # Cleaned & processed data
-
-│       ├── expression_filtered.rds
-
-│       ├── sample_info_processed.rds
-
-│       ├── deseq2_object.rds
-
-│       ├── de_genes_significant.rds
-
-│       └── deseq2_results.rds
-
-│
-
-├── scripts/                               # R analysis scripts
-
-│   ├── 01_quality_control.R
-
-│   ├── 02_differential_expression.R
-
-│   ├── 03_differential_expression.R
-
-│   ├── 04_check_pancreatic_genes.R
-
-│   ├── 05_pathway_analysis.R
-
-│   ├── 06_visualisation.R
-
-│   └── 07_summary_report.R
-
-│
-
-└── results/
-
-    ├── plots/                             # Generated visualizations
-    
-    │   ├── 01_library_size.png
-    
-    │   ├── 01_expression_distribution.png
-    
-    │   ├── 03_volcano_plot.png
-    
-    │   ├── 06_pca_plot.png
-    
-    │   ├── 06_ma_plot.png
-    
-    │   └── 06_volcano_plot.png
-    
-    │
-    
-    ├── tables/                            # Data tables & statistics
-    
-    │   ├── 03_all_genes_results.csv
-    
-    │   ├── 03_significant_de_genes.csv
-    
-    │
-    
-    │
-    
-    └── ANALYSIS_SUMMARY_1.txt               # Final summary report
-
 ## Analysis Pipeline
 
 ### Phase 1: Quality Control
@@ -144,7 +59,7 @@ Identifies genes significantly dysregulated in pancreatic cancer:
 - p-value adjustment (Benjamini-Hochberg FDR)
 - Gene ID mapping to symbols and Entrez IDs
 - Significance filtering (padj < 0.05, |log2FC| > 1)
-- Volcano plot visualization
+- Volcano plot visualisation
 
 **Output:** Complete results table and volcano plot
 - Results table: [`results/tables/03_all_genes_results.csv`](results/tables/03_all_genes_results.csv)
@@ -199,7 +114,10 @@ Generates final analysis summary and interpretation
 
 **Output:** Text summary in `results/ANALYSIS_SUMMARY_1.txt`
 
-###Installation & Requirements
+---
+
+## Installation & Requirements
+
 System Requirements
 
 **R:** Version 4.0 or higher
@@ -208,6 +126,7 @@ System Requirements
 **Disk Space:** ~2 GB
 
 R Package Installation
+-
 ```r
 # Install CRAN packages
 install.packages(c(
@@ -228,9 +147,11 @@ BiocManager::install(c(
   "GEOquery"        # Download from GEO
 ))
 ```
+---
 
-###Usage
-###Quickstart: Run full pipeline
+## Usage
+
+## Quickstart: Run full pipeline
 ```r
 # Set working directory
 setwd("~/Documents/pancreatic-cancer-analysis")
@@ -246,6 +167,7 @@ source("scripts/07_summary_report.R")
 
 print("✓ Analysis complete!")
 ```
+
 ### Run Full Transcripts
 ```r
 # Just quality control
@@ -271,24 +193,38 @@ Processed data is stored as RDS files for easy loading:
 rdds <- readRDS("data/processed/deseq2_object.rds")
 de_genes <- readRDS("data/processed/de_genes_significant.rds")
 ```
+---
 
 ### Key Findings
+
 Differential Expression Summary
 
-
 **Total genes analyzed:** ~54,000 (after filtering)
-**Significantly dysregulated genes:** [2]
+
+**Total samples analysed:** 288
+
+**Significantly dysregulated genes:** 2
 
 
 *Upregulated in cancer:* [0]
-*Downregulated in cancer:* [2]
 
+*Downregulated in cancer:* [2]
 
 Statistical threshold: FDR-adjusted p-value < 0.05, |log2 fold change| > 1
 
+---
+## Pathways Identified
+
+No significant pathways were identified
+
+Reason:
+> Sample size was insginificant
+
+>  No significant genes were detectable
 
 
 ### Known Pancreatic Cancer Genes
+
 The following well-characterized pancreatic cancer genes showed changes consistent with literature:
 
 *KRAS:* Not significant
@@ -298,6 +234,8 @@ The following well-characterized pancreatic cancer genes showed changes consiste
 *CDKN2A:* not significant
 
 *SMAD4:* Not significant
+
+---
 
 ### Methods
 
@@ -315,6 +253,7 @@ Removed genes with mean expression < 5
 Assessed library size distribution
 Checked for missing values and outliers
 
+---
 
 ## Statistical Analysis
 
@@ -332,102 +271,45 @@ Wald test with Benjamini-Hochberg FDR correction
 Adjusted p-value (padj) < 0.05
 Absolute log2 fold change > 1.0
 
-
+---
 
 ## Clinical Implications
 
-~Therapeutic Targets
+**Therapeutic Targets:** Upregulated genes represent potential intervention points for pancreatic cancer treatment.
 
-~Upregulated genes identified in this analysis represent potential therapeutic targets for pancreatic cancer intervention.
+**Biomarker Discovery:** Dysregulated genes serve as diagnostic (early detection), prognostic (patient stratification), and predictive (treatment response) biomarkers.
 
-~Biomarker Discovery
+**Precision Medicine:** Molecular profiling enables patient stratification, targeted therapy selection, and treatment monitoring.
 
-
-~Dysregulated genes could serve as:
-
->Diagnostic biomarkers for early detection
-
->Prognostic biomarkers for patient stratification
-
->Predictive biomarkers for treatment response
-
-~Precision Medicine
-
-~Molecular profiling enables:
-
->Patient stratification based on expression profiles
-
->Selection of targeted therapies
-
->Monitoring of treatment response
-
-~Surgical Considerations
-
-~Understanding molecular landscape informs:
-
->Surgical strategy selection
-
->Timing of intervention
-
->Potential for neoadjuvant therapy optimization
+**Surgical Considerations:** Molecular insights inform surgical strategy, intervention timing, and neoadjuvant therapy planning.
 
 
 ## Limitations
 
-Single dataset analysis:
+- **Single dataset:** Results need validation in independent cohorts
 
-Results should be validated in independent cohorts
+- **Technology:** Microarray platform may differ from RNA-seq
 
-Technology platform:
+- **Sample size:** Limited statistical power with small cohorts
 
-Microarray vs. RNA-seq differences
+- **Functional validation:** Computational predictions require experimental confirmation
 
-Sample size:
-
-Limited number of samples may restrict statistical power
-
-Cross-validation: 
-
-Results need functional validation
-
-Temporal factors:
-
-Snapshot of gene expression, not dynamic changes
-
+- **Temporal scope:** Snapshot analysis, not dynamic gene expression changes
 
 ## Future Directions
 
-Validation Studies
+- **Validation:** RNA-seq confirmation, protein-level validation (Western blot, immunohistochemistry), functional studies in cancer cell lines
 
-RNA-seq confirmation of top genes
+- **Expanded analysis:** Multi-cohort meta-analysis, subtype-specific analysis, time-series analysis
 
-Protein-level validation (Western blot, immunohistochemistry)
+- **Clinical translation:** Development of diagnostic/prognostic tests, prospective validation studies
 
-Functional studies in cancer cell lines
+---
 
-Expanded Analysis
-: Multi-cohort meta-analysis,
-
-Subtype-specific analysis,
-
-Time-series analysis if available
+# References
 
 
-Clinical Translation
-
-Development of diagnostic tests,
-
-Prospective validation studies,
-
-Translation to clinical practice
-
-
-
-
-### References
-
-
-## Key Papers
+### Key Papers
 
 1. Love, M.I., Huber, W., & Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15(12), 550.
 
@@ -438,7 +320,7 @@ Translation to clinical practice
 3. Ma Y, Pu Y, Peng L, Luo X, Xu J, Peng Y and Tang X: Identification of potential hub genes associated with the pathogenesis and prognosis of pancreatic duct adenocarcinoma using bioinformatics meta‑analysis of multi‑platform datasets. Oncol Lett 18: 6741-6751, 2019.
 
 
-## Databases & Tools
+### Databases & Tools
 
 Gene Expression Omnibus: https://www.ncbi.nlm.nih.gov/geo/
 
@@ -449,48 +331,39 @@ KEGG: https://www.genome.jp/kegg/
 Reactome: https://reactome.org/
 
 
-## Pancreatic Cancer Resources
+ ### Pancreatic Cancer Resources
 
 National Cancer Institute: https://www.cancer.gov/types/pancreatic
 
 Pancreatic Cancer Action: https://pancreaticcanceraction.org/
 
+---
 
-### Author & Contact
+## Author & Contact
 
-Author: Dheemahi Sai Sri Lakshmi Bugga
+**Author:** Dheemahi Sai Sri Lakshmi Bugga
 
-Affiliation: Malla Reddy Medical College For Women, Fourth year MBBS Student
+**Affiliation:** Malla Reddy Medical College For Women, Fourth year MBBS Student
 
+**Research Interests:**
+- Cancer Genomics
+- Translational Oncology
+- Precision Medicine
+- Sugical Oncology
 
+**Email:** [dheemahibugga27@gmail.com]
 
+----
 
-Research Interests:
-
-Surgical oncology and precision medicine
-
-Trauma surgery
-
-Computational biology in medicine
-
-Cancer genomics
-
-
-
-
-Email: [dheemahibugga27@gmail.com]
-
-
-
-### License
+# License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 MIT License Summary
 
+---
 
-
-### Acknowledgments
+## Acknowledgments
 
 GEO (Gene Expression Omnibus) for public access to data
 
