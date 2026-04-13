@@ -2,14 +2,13 @@
 
 ## Project Overview
 
-This project analyzes gene expression data from pancreatic cancer patient samples to identify dysregulated genes and biological pathways associated with disease progression. The analysis integrates clinical context with computational biology, providing insights relevant to both surgical oncology and precision medicine.
+The project's main objective is to analyse the gene expression data from pancreatic cancer patient samples. Thereby recognising any dysregulated gene, either upregulated or downregulated genes, also understanding biological pathways present with disease progression. This analysis helps to provide insights relevant to both surgical oncology and cancer genomics.
 
 ### Clinical Relevance
-Pancreatic cancer is one of the most aggressive human malignancies, often presenting as a surgical emergency. Understanding the molecular landscape of this disease is crucial for:
-- Early detection strategies
-- Prognosis prediction
-- Therapeutic target identification
-- Personalized treatment planning
+Pancreatic cancer being one of the most aggressive malignancies wit poor prognosis, can't be indentified until it becomes a surgical emergency. Hence understanding its gene expression is vital for: 
+- Early detection
+- Good prognosis
+- Right treatment identification 
 
 ## Dataset
 
@@ -23,12 +22,10 @@ Pancreatic cancer is one of the most aggressive human malignancies, often presen
 ### Phase 1: Quality Control
 **Script:** [`01_quality_control.R`](scripts/01_quality_control.R)
 
-Performs initial assessment of data quality:
-- Library size distribution across samples
-- Expression value statistics  
+Assessment of data quality and ensuring: 
+- Library size distribution across samples  
 - Gene expression distribution
 - Identification of low-expression genes
-- Missing value detection
 
 **Output:** Quality control plots and filtered gene expression matrix
 - Plot: [`results/plots/01_library_size.png`](results/plots/01_library_size.png)
@@ -40,10 +37,9 @@ Performs initial assessment of data quality:
 ### Phase 2: Data Preparation
 **Script:** [`02_differential_expression.R`](scripts/02_differential_expression.R)
 
-Prepares data for differential expression analysis:
-- Sample metadata organization
-- Condition assignment (cancer vs. normal)
-- Gene count matrix creation
+Prepares data for differential expression analysis by:
+- Data organization
+- Detecting normal and cancer sample
 - Low-count gene filtering
 - DESeq2 object initialization
 
@@ -71,7 +67,7 @@ Identifies genes significantly dysregulated in pancreatic cancer:
 ### Phase 4: Cancer Gene Validation
 **Script:** [`04_check_pancreatic_genes.R`](scripts/04_check_pcancer_genes.R)
 
-Validates known pancreatic cancer genes in the analysis
+Validating pancreatic cancer genes in the analysis
 
 **Output:** Console report of key gene changes
 
@@ -125,60 +121,6 @@ System Requirements
 **OS:** macOS, Linux, or Windows
 **Disk Space:** ~2 GB
 
-R Package Installation
--
-```r
-# Install CRAN packages
-install.packages(c(
-  "tidyverse",      # Data manipulation & plotting
-  "ggplot2",        # Advanced graphics
-  "pheatmap",       # Heatmap creation
-  "RColorBrewer",   # Color palettes
-  "gridExtra",      # Combine plots
-  "renv"            # Environment management
-))
-
-# Install Bioconductor packages
-BiocManager::install(c(
-  "DESeq2",         # Differential expression
-  "limma",          # Linear models
-  "org.Hs.eg.db",   # Human genome annotations
-  "clusterProfiler", # Pathway enrichment
-  "GEOquery"        # Download from GEO
-))
-```
----
-
-## Usage
-
-## Quickstart: Run full pipeline
-```r
-# Set working directory
-setwd("~/Documents/pancreatic-cancer-analysis")
-
-# Run all analysis scripts sequentially
-source("scripts/01_quality_control.R")
-source("scripts/02_differential_expression.R")
-source("scripts/03_differential_expression.R")
-source("scripts/04_check_pancreatic_genes.R")
-source("scripts/05_pathway_analysis.R")
-source("scripts/06_visualisation.R")
-source("scripts/07_summary_report.R")
-
-print("✓ Analysis complete!")
-```
-
-### Run Full Transcripts
-```r
-# Just quality control
-source("scripts/01_quality_control.R")
-
-# Just differential expression
-source("scripts/03_differential_expression.R")
-
-# Just visualization
-source("scripts/06_visualisation.R")
-```
 
 ### Data Access
 Raw data is downloaded directly from GEO within the scripts:
@@ -275,26 +217,25 @@ Absolute log2 fold change > 1.0
 
 ## Clinical Implications
 
-**Therapeutic Targets:** Upregulated genes represent potential intervention points for pancreatic cancer treatment.
+**Therapeutic Targets:** Upregulated genes indicate potential intervention for pancreatic cancer treatment.
 
-**Biomarker Discovery:** Dysregulated genes serve as diagnostic (early detection), prognostic (patient stratification), and predictive (treatment response) biomarkers.
+**Biomarker Discovery:** Dysregulated genes serve as diagnostic, prognostic, and predictive biomarkers.
 
-**Precision Medicine:** Molecular profiling enables patient stratification, targeted therapy selection, and treatment monitoring.
+**Precision Medicine:** Molecular profiling helps in patient stratification, targeted therapy selection, and treatment monitoring.
 
-**Surgical Considerations:** Molecular insights inform surgical strategy, intervention timing, and neoadjuvant therapy planning.
+**Surgical Considerations:** Molecular insight help in right surgical strategy, intervention timing, and neoadjuvant therapy planning.
 
 
 ## Limitations
 
-- **Single dataset:** Results need validation in independent cohorts
+- **Single dataset:** Results need validation in different samples 
 
 - **Technology:** Microarray platform may differ from RNA-seq
 
-- **Sample size:** Limited statistical power with small cohorts
+- **Sample size:** Limited statistical power with smaller samples 
 
 - **Functional validation:** Computational predictions require experimental confirmation
 
-- **Temporal scope:** Snapshot analysis, not dynamic gene expression changes
 
 ## Future Directions
 
